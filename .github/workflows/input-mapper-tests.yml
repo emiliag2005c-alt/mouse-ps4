@@ -1,0 +1,51 @@
+name: Input Mapper Core Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "include/**"
+      - "src/**"
+      - "tests/**"
+      - "app/src/**"
+      - "profiles/**"
+      - ".github/workflows/input-mapper-tests.yml"
+  pull_request:
+    paths:
+      - "include/**"
+      - "src/**"
+      - "tests/**"
+      - "app/src/**"
+      - "profiles/**"
+      - ".github/workflows/input-mapper-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile mapper core tests
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror \
+            -Iinclude src/mapper.c \
+            tests/test_mapper.c -o /tmp/mapper_test
+          /tmp/mapper_test
+      - name: Compile profile editor model tests
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror \
+            -Iinclude src/profile_model.c \
+            tests/test_profile_model.c -o /tmp/profile_test
+          /tmp/profile_test
+      - name: Test editor default profile initializer
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror \
+            -Iinclude src/profile_model.c \
+            app/src/profile_defaults.c \
+            tests/test_profile_defaults.c -o /tmp/profile_defaults_test
+          /tmp/profile_defaults_test
+      - name: Validate default profile JSON
+        run: python3 tests/test_profile.py
