@@ -43,7 +43,7 @@ jobs:
       - name: Test editor default profile initializer
         run: |
           cc -std=c11 -Wall -Wextra -Werror \
-            -Iinclude src/profile_model.c \
+            -Iinclude -Iapp/src src/profile_model.c \
             app/src/profile_defaults.c \
             tests/test_profile_defaults.c -o /tmp/profile_defaults_test
           /tmp/profile_defaults_test
