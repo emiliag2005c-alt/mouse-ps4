@@ -61,14 +61,14 @@ jobs:
           set -euo pipefail
           make -C app
           test -s app/eboot.bin
-          test -s app/IV0000-PIM000001_00-PS4INPUTMAPPER0.pkg
-          "$OO_PS4_TOOLCHAIN/bin/linux/PkgTool.Core" pkg_validate app/IV0000-PIM000001_00-PS4INPUTMAPPER0.pkg
-          sha256sum app/eboot.bin app/IV0000-PIM000001_00-PS4INPUTMAPPER0.pkg
+          test -s app/IV0000-PIM000001_00-PS4INPUTMAPPER01.pkg
+          "$OO_PS4_TOOLCHAIN/bin/linux/PkgTool.Core" pkg_validate app/IV0000-PIM000001_00-PS4INPUTMAPPER01.pkg
+          sha256sum app/eboot.bin app/IV0000-PIM000001_00-PS4INPUTMAPPER01.pkg
       - uses: actions/upload-artifact@v4
         with:
           name: PS4-Input-Mapper-editor-shell
           path: |
-            app/IV0000-PIM000001_00-PS4INPUTMAPPER0.pkg
+            app/IV0000-PIM000001_00-PS4INPUTMAPPER01.pkg
             app/eboot.bin
             app/build/ps4_input_mapper.elf
           if-no-files-found: error

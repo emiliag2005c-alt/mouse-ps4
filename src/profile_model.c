@@ -22,17 +22,6 @@ static ProfileBinding *find_binding(InputProfile *profile, const char *action)
     return NULL;
 }
 
-static const ProfileBinding *find_binding_const(const InputProfile *profile,
-                                                const char *action)
-{
-    size_t i;
-    if (!profile || !action) return NULL;
-    for (i = 0; i < profile->binding_count; ++i)
-        if (strcmp(profile->bindings[i].action, action) == 0)
-            return &profile->bindings[i];
-    return NULL;
-}
-
 bool profile_input_equal(ProfileInput a, ProfileInput b)
 {
     return a.device == b.device && strcmp(a.code, b.code) == 0;
