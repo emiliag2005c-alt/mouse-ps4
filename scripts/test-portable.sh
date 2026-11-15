@@ -21,6 +21,9 @@ $CC $CFLAGS src/hid_adapter.c src/hid_runtime.c tests/test_hid_runtime.c -o "$BU
 $CC $CFLAGS src/mapper.c src/hid_adapter.c src/hid_runtime.c tests/test_hid_runtime_mapper.c -lm -o "$BUILD_DIR/test_hid_runtime_mapper"
 "$BUILD_DIR/test_hid_runtime_mapper"
 
+$CC $CFLAGS src/hid_adapter.c src/hid_runtime.c src/hid_transport.c tests/test_hid_transport.c -o "$BUILD_DIR/test_hid_transport"
+"$BUILD_DIR/test_hid_transport"
+
 python3 tests/test_profile.py
 
 printf '\nAll portable tests passed. This does not validate PS4 USB access or controller injection.\n'
