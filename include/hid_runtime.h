@@ -21,6 +21,8 @@ typedef struct MapperHidRuntime {
 } MapperHidRuntime;
 
 void mapper_hid_runtime_reset(MapperHidRuntime *runtime);
+void mapper_hid_runtime_keyboard_disconnected(MapperHidRuntime *runtime);
+void mapper_hid_runtime_mouse_disconnected(MapperHidRuntime *runtime);
 bool mapper_hid_runtime_keyboard(MapperHidRuntime *runtime,
                                  const uint8_t *report, uint32_t length);
 bool mapper_hid_runtime_mouse(MapperHidRuntime *runtime,
