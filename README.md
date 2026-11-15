@@ -31,7 +31,7 @@ No se presupone que el mouse tenga botones laterales. El editor permitirá asign
 
 ## Estado técnico honesto
 
-El repositorio contiene el formato JSON, el perfil inicial y un core portable de traducción con pruebas de escritorio. El nuevo puente HID conserva por separado el estado del teclado y del mouse, acumula el movimiento relativo y evita repetir el mismo desplazamiento en cada muestra.
+El repositorio contiene el formato JSON, el perfil inicial y un core portable de traducción con pruebas de escritorio. El puente HID conserva por separado el estado del teclado y del mouse, acumula el movimiento relativo una sola vez por muestra y permite limpiar cada dispositivo al desconectarlo.
 
 **El editor PS4 aún es una interfaz inicial estática: no tiene navegación, captura ni guardado interactivo. Tampoco existe un sistema verificado de inyección de mando en juegos.** La aplicación de configuración y el runtime de entrada son componentes separados.
 
@@ -48,6 +48,10 @@ python3 tests/test_profile.py
 cc -std=c11 -Wall -Wextra -Werror -Iinclude \
   src/hid_adapter.c src/hid_runtime.c tests/test_hid_runtime.c -o hid_runtime_test
 ./hid_runtime_test
+
+cc -std=c11 -Wall -Wextra -Werror -Iinclude \
+  src/mapper.c src/hid_adapter.c src/hid_runtime.c tests/test_hid_runtime_mapper.c -o hid_runtime_mapper_test
+./hid_runtime_mapper_test
 ```
 
 ## Diseño del editor
