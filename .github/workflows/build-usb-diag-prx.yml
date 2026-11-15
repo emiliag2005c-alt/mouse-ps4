@@ -75,6 +75,15 @@ jobs:
           sha256sum "$PRX"
           cp "$PRX" "$GITHUB_WORKSPACE/usb_diag.prx"
 
+      - name: Upload build log (also when compilation fails)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usb_diag-build-log
+          path: build-usb-diag.log
+          if-no-files-found: warn
+          retention-days: 14
+
       - name: Upload real PRX build
         uses: actions/upload-artifact@v4
         with:
