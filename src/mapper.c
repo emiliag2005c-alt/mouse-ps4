@@ -65,6 +65,7 @@ void mapper_step_profile(MapperState *state,
     output->right_y = clamp_axis(state->aim_y);
 
     if (input->keys[MAP_KEY_SPACE]) output->buttons |= MAP_BTN_CROSS;
+    if (input->keys[27]) output->buttons |= MAP_BTN_OPTIONS;
     if (input->keys['F'] || input->keys['f']) output->buttons |= MAP_BTN_CIRCLE;
     if (input->keys['R'] || input->keys['r']) output->buttons |= MAP_BTN_SQUARE;
     if (input->keys['E'] || input->keys['e']) output->buttons |= MAP_BTN_TRIANGLE;
@@ -72,6 +73,7 @@ void mapper_step_profile(MapperState *state,
     if (input->keys[MAP_KEY_SHIFT]) output->buttons |= MAP_BTN_L3;
 
     if (input->mouse_middle) output->buttons |= MAP_BTN_R3;
+    if (input->keys[MAP_KEY_CTRL]) output->triggers |= MAP_TRIGGER_L2;
 
     if (profile == MAP_PROFILE_GOW_RAGNAROK) {
         /* GoW Ragnarök default: left click = light attack (R1),
