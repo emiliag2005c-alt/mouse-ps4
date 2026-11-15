@@ -31,7 +31,7 @@ No se presupone que el mouse tenga botones laterales. El editor permitirá asign
 
 ## Estado técnico honesto
 
-El repositorio contiene el formato JSON, el perfil inicial y un core portable de traducción con pruebas de escritorio. El puente HID conserva por separado el estado del teclado y del mouse, acumula el movimiento relativo una sola vez por muestra y permite limpiar cada dispositivo al desconectarlo. También incluye un contrato portable de transporte para separar el polling USB de la lógica del mapper; aún no hay backend USB específico de PS4.
+El repositorio contiene el formato JSON, el perfil inicial y un core portable de traducción con pruebas de escritorio. El puente HID conserva por separado el estado del teclado y del mouse, acumula el movimiento relativo una sola vez por muestra y permite limpiar cada dispositivo al desconectarlo. Un adaptador adicional traduce el reporte normalizado a máscaras de botones PS4 verificadas y valores digitales de presión L2/R2; todavía no construye la estructura nativa `ScePadData` ni inyecta entradas. También incluye un contrato portable de transporte para separar el polling USB de la lógica del mapper; aún no hay backend USB específico de PS4.
 
 **El editor PS4 aún es una interfaz inicial estática: no tiene navegación, captura ni guardado interactivo. Tampoco existe un sistema verificado de inyección de mando en juegos.** La aplicación de configuración y el runtime de entrada son componentes separados.
 
@@ -45,7 +45,7 @@ Ejecuta la suite portable completa con:
 sh scripts/test-portable.sh
 ```
 
-El mismo comando se ejecuta automáticamente en GitHub Actions para cada push a `main` o a ramas `integration/**`, y en pull requests. Estas pruebas validan únicamente el core portable; no prueban acceso USB ni inyección de mando en PS4.
+El mismo comando se ejecuta automáticamente en GitHub Actions para cada push a `main` o a ramas `integration/**`, y en pull requests. Estas pruebas validan únicamente el core portable y la conversión a máscaras PS4; no prueban acceso USB ni inyección de mando en PS4.
 
 ```sh
 cc -std=c11 -Wall -Wextra -Werror -Iinclude \
