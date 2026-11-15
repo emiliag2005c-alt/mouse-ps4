@@ -4,7 +4,7 @@
 #include <stdio.h>
 int main(void)
 {
-    const uint8_t keyboard[8] = {0x23, 0, 0x1a, 0x04, 0x2c, 0x08, 0x29, 0};
+    const uint8_t keyboard[8] = {0x23, 0, 0x1a, 0x04, 0x2c, 0x08, 0x29, 0x14};
     const uint8_t mouse[3] = {0x07, 8, (uint8_t)-4};
     MapperInput input;
     MapperConfig config;
