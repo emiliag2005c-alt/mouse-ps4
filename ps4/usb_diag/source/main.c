@@ -29,27 +29,27 @@ static const char* hid_kind(uint8_t cls, uint8_t sub, uint8_t proto) {
 static void dump_device(int idx, libusb_device* dev) {
   struct libusb_device_descriptor dd;
   if (sceUsbdGetDeviceDescriptor(dev, &dd) != 0) {
-    LOG("[%d] no se pudo leer el descriptor del dispositivo\\n", idx);
+    LOG("[%d] no se pudo leer el descriptor del dispositivo\n", idx);
     return;
   }
-  LOG("[%d] VID=%04x PID=%04x clase=%u bus=%u dir=%u\\n", idx, dd.idVendor, dd.idProduct,
+  LOG("[%d] VID=%04x PID=%04x clase=%u bus=%u dir=%u\n", idx, dd.idVendor, dd.idProduct,
       dd.bDeviceClass, sceUsbdGetBusNumber(dev), sceUsbdGetDeviceAddress(dev));
 
   struct libusb_config_descriptor* cfg = NULL;
   if (sceUsbdGetActiveConfigDescriptor(dev, &cfg) != 0 || cfg == NULL) {
-    LOG("    sin configuracion activa legible\\n");
+    LOG("    sin configuracion activa legible\n");
     return;
   }
   for (int i = 0; i < cfg->bNumInterfaces; i++) {
     const struct libusb_interface* itf = &cfg->interface[i];
     for (int a = 0; a < itf->num_altsetting; a++) {
       const struct libusb_interface_descriptor* d = &itf->altsetting[a];
-      LOG("    interfaz %u: clase=%u sub=%u proto=%u -> %s\\n", d->bInterfaceNumber,
+      LOG("    interfaz %u: clase=%u sub=%u proto=%u -> %s\n", d->bInterfaceNumber,
           d->bInterfaceClass, d->bInterfaceSubClass, d->bInterfaceProtocol,
           hid_kind(d->bInterfaceClass, d->bInterfaceSubClass, d->bInterfaceProtocol));
       for (int e = 0; e < d->bNumEndpoints; e++) {
         const struct libusb_endpoint_descriptor* ep = &d->endpoint[e];
-        LOG("      endpoint 0x%02x tipo=%u paquete=%u intervalo=%u\\n", ep->bEndpointAddress,
+        LOG("      endpoint 0x%02x tipo=%u paquete=%u intervalo=%u\n", ep->bEndpointAddress,
             ep->bmAttributes & 3, ep->wMaxPacketSize, ep->bInterval);
       }
     }
@@ -58,31 +58,31 @@ static void dump_device(int idx, libusb_device* dev) {
 }
 
 s32 attr_public plugin_load(s32 argc, const char* argv[]) {
-  final_printf("[GoldHEN] <%s\\Ver.0x%08x> %s\\n", g_pluginName, g_pluginVersion, __func__);
+  final_printf("[GoldHEN] <%s\\Ver.0x%08x> %s\n", g_pluginName, g_pluginVersion, __func__);
   g_log = fopen(DIAG_LOG, "w");
 
   char module[256];
   snprintf(module, 256, "/%s/common/lib/%s", sceKernelGetFsSandboxRandomWord(), "libSceUsbd.sprx");
   int h = 0;
   int r = sys_dynlib_load_prx(module, &h);
-  LOG("cargar libSceUsbd.sprx: ret=0x%x handle=%d\\n", r, h);
+  LOG("cargar libSceUsbd.sprx: ret=0x%x handle=%d\n", r, h);
 
   int32_t rc = sceUsbdInit();
-  LOG("sceUsbdInit: %d\\n", rc);
+  LOG("sceUsbdInit: %d\n", rc);
 
   libusb_device** list = NULL;
   int32_t n = sceUsbdGetDeviceList(&list);
-  LOG("dispositivos USB encontrados: %d\\n", n);
+  LOG("dispositivos USB encontrados: %d\n", n);
   for (int i = 0; i < n && list; i++) dump_device(i, list[i]);
   if (list) sceUsbdFreeDeviceList(list);
 
-  LOG("fin del diagnostico\\n");
+  LOG("fin del diagnostico\n");
   if (g_log) { fclose(g_log); g_log = NULL; }
   return 0;
 }
 
 s32 attr_public plugin_unload(s32 argc, const char* argv[]) {
-  final_printf("[GoldHEN] <%s\\Ver.0x%08x> %s\\n", g_pluginName, g_pluginVersion, __func__);
+  final_printf("[GoldHEN] <%s\\Ver.0x%08x> %s\n", g_pluginName, g_pluginVersion, __func__);
   return 0;
 }
 
