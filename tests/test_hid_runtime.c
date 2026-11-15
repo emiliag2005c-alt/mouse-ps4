@@ -27,6 +27,17 @@ int main(void)
     assert(input.keys['w'] && input.mouse_left);
     assert(input.mouse_dx == 0 && input.mouse_dy == 0);
 
+    /* Disconnecting one interface must not leave its held state stuck. */
+    mapper_hid_runtime_keyboard_disconnected(&runtime);
+    assert(mapper_hid_runtime_sample(&runtime, &input));
+    assert(!input.keys['w'] && input.mouse_left);
+
+    mapper_hid_runtime_keyboard(&runtime, keyboard_w, 8);
+    mapper_hid_runtime_mouse_disconnected(&runtime);
+    assert(mapper_hid_runtime_sample(&runtime, &input));
+    assert(input.keys['w'] && !input.mouse_left);
+    assert(!input.mouse_dx && !input.mouse_dy);
+
     assert(mapper_hid_runtime_keyboard(&runtime, keyboard_up, 8));
     assert(mapper_hid_runtime_mouse(&runtime, mouse_release, 3));
     assert(mapper_hid_runtime_sample(&runtime, &input));
