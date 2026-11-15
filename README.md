@@ -39,6 +39,14 @@ La compatibilidad universal con juegos que solo aceptan mando depende de validar
 
 ## Pruebas locales
 
+Ejecuta la suite portable completa con:
+
+```sh
+sh scripts/test-portable.sh
+```
+
+El mismo comando se ejecuta automáticamente en GitHub Actions para cada push a `main` o a ramas `integration/**`, y en pull requests. Estas pruebas validan únicamente el core portable; no prueban acceso USB ni inyección de mando en PS4.
+
 ```sh
 cc -std=c11 -Wall -Wextra -Werror -Iinclude \
   src/mapper.c tests/test_mapper.c -o mapper_test
