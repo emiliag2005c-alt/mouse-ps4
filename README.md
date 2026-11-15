@@ -31,9 +31,11 @@ No se presupone que el mouse tenga botones laterales. El editor permitirá asign
 
 ## Estado técnico honesto
 
-El repositorio contiene el formato JSON, el perfil inicial y un core portable de traducción con pruebas de escritorio. **El editor PS4 aún es una interfaz inicial estática: no tiene navegación, captura ni guardado interactivo. Tampoco existe un sistema verificado de inyección de mando en juegos.** La aplicación de configuración y el runtime de entrada son componentes separados.
+El repositorio contiene el formato JSON, el perfil inicial y un core portable de traducción con pruebas de escritorio. El nuevo puente HID conserva por separado el estado del teclado y del mouse, acumula el movimiento relativo y evita repetir el mismo desplazamiento en cada muestra.
 
-La compatibilidad universal con juegos que solo aceptan mando depende de encontrar y validar una ruta segura de entrada en PS4/GoldHEN. No se afirmará que existe hasta probarla en hardware real.
+**El editor PS4 aún es una interfaz inicial estática: no tiene navegación, captura ni guardado interactivo. Tampoco existe un sistema verificado de inyección de mando en juegos.** La aplicación de configuración y el runtime de entrada son componentes separados.
+
+La compatibilidad universal con juegos que solo aceptan mando depende de validar una ruta de entrada en PS4/GoldHEN. El puente actual acepta informes HID Boot de teclado (8 bytes) y mouse (3 bytes); todavía no enumera USB en PS4 ni envía reportes al mando. No se afirmará compatibilidad hasta probarla en hardware real.
 
 ## Pruebas locales
 
@@ -42,8 +44,12 @@ cc -std=c11 -Wall -Wextra -Werror -Iinclude \
   src/mapper.c tests/test_mapper.c -o mapper_test
 ./mapper_test
 python3 tests/test_profile.py
+
+cc -std=c11 -Wall -Wextra -Werror -Iinclude \
+  src/hid_adapter.c src/hid_runtime.c tests/test_hid_runtime.c -o hid_runtime_test
+./hid_runtime_test
 ```
 
 ## Diseño del editor
 
-Consulta [PROFILE_EDITOR.md](PROFILE_EDITOR.md) y [PROFILE_FORMAT.md](PROFILE_FORMAT.md).
+Consulta [PROFILE_EDITOR.md](PROFILE_EDITOR.md) y [PROFILE_FORMAT.md](PROFILE_FORMAT.md). Para el puente HID consulta [HID_RUNTIME.md](HID_RUNTIME.md).
