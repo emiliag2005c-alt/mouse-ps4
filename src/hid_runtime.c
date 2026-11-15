@@ -17,6 +17,22 @@ void mapper_hid_runtime_reset(MapperHidRuntime *runtime)
     if (runtime != NULL) memset(runtime, 0, sizeof(*runtime));
 }
 
+void mapper_hid_runtime_keyboard_disconnected(MapperHidRuntime *runtime)
+{
+    if (runtime == NULL) return;
+    memset(runtime->keyboard_report, 0, sizeof(runtime->keyboard_report));
+    runtime->keyboard_valid = false;
+}
+
+void mapper_hid_runtime_mouse_disconnected(MapperHidRuntime *runtime)
+{
+    if (runtime == NULL) return;
+    memset(runtime->mouse_report, 0, sizeof(runtime->mouse_report));
+    runtime->pending_dx = 0;
+    runtime->pending_dy = 0;
+    runtime->mouse_valid = false;
+}
+
 bool mapper_hid_runtime_keyboard(MapperHidRuntime *runtime,
                                  const uint8_t *report, uint32_t length)
 {
