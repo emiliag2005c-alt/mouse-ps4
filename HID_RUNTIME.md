@@ -23,3 +23,10 @@ cc -std=c11 -Wall -Wextra -Werror -Iinclude \
   src/mapper.c src/hid_adapter.c src/hid_runtime.c tests/test_hid_runtime_mapper.c -o hid_runtime_mapper_test
 ./hid_runtime_mapper_test
 ```
+
+
+## Platform transport contract
+
+`include/hid_transport.h` defines a callback contract for a future platform USB backend. It distinguishes a fresh report, no new packet, device disconnect, and read error. No-data preserves held state; disconnect releases only the affected device. The portable polling bridge is tested with a fake transport in `tests/test_hid_transport.c`.
+
+This is not a PS4 USB backend: device enumeration, interface claiming, endpoint setup, and actual transfers still need a GoldHEN-compatible implementation and real-console testing.
